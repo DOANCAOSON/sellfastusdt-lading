@@ -1,0 +1,44 @@
+---
+import Empty from '@/components/Empty'
+import PostCard from '@/components/PostCard'
+import { Pagination } from '@/components/pagination'
+import Layout from '../../layouts/Layout.astro'
+import { getPosts } from '../../server-side/api'
+
+const page = new URLSearchParams(Astro.url.search).get('page') || 1
+const posts = (await getPosts(+page)) as Posts
+if (!posts) return Astro.redirect('/404')
+const { data, pagination } = posts
+---
+
+<Layout title='Blogs' metadata={{}}>
+  <div class='wrap post-wrap mb--60 container mt-30'>
+    <div class='w-[100%] flex justify-center items-center'>
+      <div class='w-[100%] sm:w-[100%] lg:w-[1300px] mt-[100px] px-[20px] lg:p-0'>
+        <div class='grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-x-[50px] gap-y-8'>
+          {
+            data?.length ? (
+              <>
+                {data.map((x: Post) => (
+                  <PostCard item={x} client:visible />
+                ))}
+              </>
+            ) : (
+              <div class='wrap post-wrap mb--60 container' style='margin-top: 30px; margin-bottom: 30px;'>
+                <div style='display: flex; justify-content: center;'>
+                  <Empty des='No blog' />
+                </div>
+              </div>
+            )
+          }
+        </div>
+        <Pagination
+          totalRecords={pagination.totalRecords}
+          pageSize={pagination.pageSize}
+          defaultValue={pagination.page}
+          client:load
+        />
+      </div>
+    </div>
+  </div>
+</Layout>

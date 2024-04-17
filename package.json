@@ -1,0 +1,45 @@
+{
+  "name": "fe-sellfastusdt",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "cp .env.sample .env && astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "start-prod": "node server.js",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.3.1",
+    "@astrojs/node": "^6.0.3",
+    "@astrojs/preact": "^3.0.1",
+    "@astrojs/sitemap": "^3.0.5",
+    "@astrojs/tailwind": "^5.0.2",
+    "@nanostores/persistent": "^0.9.1",
+    "@nanostores/preact": "^0.5.0",
+    "@preact/compat": "17.1.2",
+    "astro-seo": "^0.8.0",
+    "compression": "^1.7.4",
+    "dayjs": "^1.11.10",
+    "debounce": "^2.0.0",
+    "express": "^4.18.2",
+    "lightweight-charts": "^4.1.2",
+    "nanostores": "^0.9.5",
+    "path-to-regexp": "^6.2.1",
+    "preact": "^10.18.2",
+    "qs": "^6.11.2",
+    "socket.io-client": "^4.7.2"
+  },
+  "devDependencies": {
+    "@types/debounce": "^1.2.1",
+    "@types/qs": "^6.9.11",
+    "astro": "^3.5.0",
+    "astro-compress": "^2.0.14",
+    "astro-robots-txt": "^0.5.0",
+    "astro-sitemap": "^0.6.0",
+    "prettier": "3.2.2",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3"
+  }
+}

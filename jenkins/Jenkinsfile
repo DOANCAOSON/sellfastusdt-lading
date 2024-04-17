@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Initialize') {
+            steps {
+                script {
+                    sh 'docker compose down || true'
+                }
+            }
+        }
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Clean Up') {
+            steps {
+                script {
+                    sh 'docker rm -f $(docker ps -a -f status=exited -q) || true'
+                    sh 'docker rmi $(docker images -a -q) || true'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    environment {
+                        STAGE_SPECIFIC_VAR = "value_for_stage"
+                        SEO_DESCRIPTION='LAPTRINHWEBAPP Tự tin mang đến cho quý khách khách hàng dịch vụ thiết kế website "chuẩn SEO" uy tín, chất lượng và phù hợp với giá tiền.'
+                        SEO_TITLE="LapTrinhWebApp"
+                        SITE="https://laptrinhwebapp.com/"
+                    }
+                    sh 'docker compose up -d'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            script {
+                echo 'Deployment succeeded!'
+            }
+        }
+        failure {
+            script {
+                echo 'Deployment failed. Cleaning up...'
+                sh 'docker compose down || true'
+            }
+        }
+    }
+}

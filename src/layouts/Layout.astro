@@ -1,0 +1,82 @@
+---
+import type { Props as SEOProps } from 'astro-seo'
+
+import { default as CustomStyles, default as Favicons } from '@/fragments/layout/head/Favicons.astro'
+import { default as Analytics, default as SiteVerification } from '@/fragments/layout/head/SiteVerification.astro'
+import { getTelegram, getTokenBalance } from '@/server-side/api'
+import { SEO } from 'astro-seo'
+
+import { Notification } from '@/components/notification'
+import AudioBell from '@/fragments/layout/AudioBell'
+import Breadcrumb from '@/fragments/layout/Breadcrumb.astro'
+import LiveChat from '@/fragments/layout/LiveChat.astro'
+import SocketClient from '@/fragments/layout/SocketClient'
+import Footer from '@/fragments/layout/footer/index.astro'
+import CommonMeta from '@/fragments/layout/head/CommonMeta.astro'
+import Metadata from '@/fragments/layout/head/Metadata.astro'
+import Header from '@/fragments/layout/header/index.astro'
+interface Props {
+  title: string
+  metadata: SEOProps
+}
+const { title, metadata } = Astro.props
+const balance = await getTokenBalance()
+const telegram = await getTelegram()
+const site = ['/', '/login']
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    {metadata?.noindex && <meta name='robots' content='noindex' />}
+    {!metadata?.noindex && metadata && <SEO {...metadata} />}
+    <title>{title}</title>
+    <CommonMeta />
+    <Favicons />
+    <CustomStyles />
+    <Metadata {...metadata} />
+    <SiteVerification />
+    <Analytics />
+    <style>
+      .tawk-branding {
+        display: none !important;
+      }
+    </style>
+    <!-- <ViewTransitions /> -->
+  </head>
+  <body>
+    <SocketClient client:only='preact' balance={balance} />
+    <LiveChat />
+    <AudioBell client:only='preact' />
+    <Notification client:only='preact' />
+    <!--<ScrollYPro telegram={telegram} client:visible /> -->
+    <Header />
+    <!-- <ScrollToTop /> -->
+    <main class='pt-[7rem] md:pt-[10rem]'>
+      {!site.includes(Astro.url.pathname) && <Breadcrumb title={title} />}
+      <slot />
+    </main>
+    <Footer telegram={telegram} />
+    <style is:global>
+      .text-break {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        white-space: break-spaces;
+        word-wrap: break-word;
+      }
+
+      .text-break-1 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        white-space: break-spaces;
+        word-wrap: break-word;
+      }
+    </style>
+  </body>
+</html>

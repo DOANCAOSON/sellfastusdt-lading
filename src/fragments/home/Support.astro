@@ -1,0 +1,49 @@
+---
+const Text = {
+  basicKnowledge: 'Basic Knowledge',
+  frequentlyAskedQuestions: 'Frequently Asked Questions',
+  chatWithUs: 'Chat with Us',
+  onlineSupport: 'Online Support'
+}
+
+const supportItems = [
+  {
+    imageSrc: '/assets/images/support.png',
+    title: Text.basicKnowledge,
+    subtitle: Text.frequentlyAskedQuestions,
+    link: '/question'
+  },
+  {
+    imageSrc: '/assets/images/support.png',
+    title: Text.chatWithUs,
+    subtitle: Text.onlineSupport,
+    link: '#'
+  }
+]
+---
+
+<div class='w-[100%] justify-center items-center px-[20px] lg:p-0'>
+  <div
+    class='lg:w-[900px] mx-[auto] flex justify-between border-[1px] border-bgcontainer p-[10px] md:p-[20px] lg:px-[50px] rounded-lg w-full'
+  >
+    <div class='w-[100%] lg:w-[1000px] mx-[auto] lg:flex justify-between'>
+      {
+        supportItems.map((item) => (
+          <a href={item.link}>
+            <div class='flex items-center py-2 lg:justify-center '>
+              <div class='mr-[20px]'>
+                <div class='w-[50px]'>
+                  <img src={item.imageSrc} alt='' />
+                </div>
+              </div>
+              <div>
+                <div class='font-semibold text-[12px] sm:text-[13px] lg:text-[14px] '>{item.title}</div>
+                <div class='font-medium text-[14px]'>{item.subtitle}</div>
+              </div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</div>

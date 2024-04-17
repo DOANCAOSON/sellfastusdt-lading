@@ -1,0 +1,71 @@
+---
+const { telegram } = Astro.props
+
+const footerContent = [
+  {
+    title: 'Address',
+    content: [
+      {
+        label: '',
+        value: '11 5A St - Al Twar - Al Twar 1 - Dubai - United Arab Emirates'
+      },
+      { label: '', value: 'Ground Floor ,City Tower - Dubai - United Arab Emirates' }
+    ]
+  },
+  {
+    title: 'Contact',
+    content: [
+      {
+        label: 'Telegram:',
+        value: 'sellfastusdt',
+        link: telegram
+      },
+      {
+        label: 'Email:',
+        value: 'sellfastusdt@gmail.com'
+      },
+      {
+        label: 'Address:',
+        value: '11 5A St - Al Twar - Al Twar 1 - Dubai - United Arab Emirates'
+      }
+    ]
+  },
+  {
+    title: 'News',
+    content: [
+      { label: '', value: 'Belongs to Science and Technology' },
+      { label: 'Publish Date:', value: '2023-11-18' },
+      { label: 'Author:', value: 'Dạyana Al-Mansoori' },
+      { label: 'Topic:', value: 'Science and Crypto' }
+    ]
+  }
+]
+---
+
+<footer class='w-[100%] px-[20px] lg:px-[0px] mt-[100px] lg:flex justify-center bg-[#555555] text-[#fff]'>
+  <div class='w-full sm:w-full lg:w-[1300px] flex mx-auto'>
+    <div class='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[100px] rounded-lg gap-10 p-8 lg:p-[40px]'>
+      {
+        footerContent.map((section: any) => (
+          <div class='w-full justify-between sm:w-full mx-auto'>
+            <h3 class='text-lg mb-3'>{section.title}</h3>
+            <ul>
+              {section.content.map((item: any) => (
+                <li>
+                  {item.label}{' '}
+                  {item.link ? (
+                    <a href={item.link} target='_blank' rel='noreferrer'>
+                      {item.value}
+                    </a>
+                  ) : (
+                    item.value
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</footer>

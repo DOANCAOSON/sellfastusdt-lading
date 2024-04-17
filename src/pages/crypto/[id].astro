@@ -1,0 +1,30 @@
+---
+import Empty from '@/components/Empty'
+import Support from '@/fragments/home/Support.astro'
+import Detail from '@/fragments/transaction/Detail'
+import { getDepositBalance } from '@/server-side/api'
+import type { Props } from 'astro'
+import Layout from '../../layouts/Layout.astro'
+import { generateSEO } from '../../utils/index.ts'
+const seo = generateSEO({})
+
+const {
+  params: { id = '' }
+} = Astro
+const token = Astro.cookies.get('token')?.value
+if (!token) return Astro.redirect('/404')
+const deposit = await getDepositBalance(id, token)
+---
+
+<Layout title={`TRANSACTION DETAIL`} metadata={seo as Props}>
+  <div class='container'>
+    {
+      !!deposit ? (
+        <Detail client:load data={deposit} type='balance' />
+      ) : (
+        <Empty des='Transaction not found' className='md:m-10 m-3' />
+      )
+    }
+    <Support />
+  </div>
+</Layout>

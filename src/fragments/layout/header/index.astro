@@ -1,0 +1,53 @@
+---
+import { getNotifications } from '@/server-side/api'
+import Authentication from './Authentication'
+import DepositBox from './DepositBox'
+import LoginBtn from './LoginBtn.astro'
+import Logo from './Logo.astro'
+import MenuNav from './MenuNav.astro'
+import MenuNavMobile from './MenuNavMobile'
+import TickerTape from './TickerTape.astro'
+
+const userID = Astro.cookies.get('userId')?.value
+
+const menuItems = [
+  { href: '/crypto/buy', text: 'BUY COIN' },
+  { href: '/crypto/sell', text: 'SELL COIN' },
+  // { href: '/fit-guide', text: 'COIN BUYING GUIDE' },
+  { href: '/blog', text: 'FINANCIAL NEWS' },
+  { href: '/about-us', text: 'ABOUT US' },
+  { href: '/contact-us', text: 'CONTACT US' }
+]
+
+menuItems.push({ href: `/search?userId=${userID}`, text: 'TRANSACTION LOOKUP' })
+const notifications = await getNotifications({ cookies: Astro.cookies })
+const isLogged = !!Astro.cookies.get('token')?.value
+---
+
+<div class='w-[100%] fixed border-b-2 border-b-[#ededed] border-solid top-0 bg-white z-10'>
+  <div class='flex w-[100%] justify-center'>
+    <div class='w-[100%] flex justify-end bg-bgcontainer'>
+      <div class='lg:w-[1300px] flex items-center justify-end py-[10px] px-[20px] gap-2.5'>
+        {
+          isLogged ? (
+            <>
+              <Authentication client:load data={notifications ?? ({ dataSource: [], total: 0 } as any)} />
+              <DepositBox client:load />
+            </>
+          ) : (
+            <LoginBtn />
+          )
+        }
+      </div>
+    </div>
+  </div>
+  <div class='flex w-[100%] lg:justify-center lg:mt-[10px] mt-0 px-[20px]'>
+    <div class='w-[100%] h-[50px] sm:h-[80px] lg:h-[80px] lg:w-[1300px] flex items-center justify-between px-[4px]'>
+      <Logo />
+      <MenuNav menuItems={menuItems} />
+      {/* mobile */}
+      <MenuNavMobile menuItems={menuItems} client:visible />
+    </div>
+  </div>
+  <TickerTape />
+</div>

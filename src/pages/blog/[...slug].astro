@@ -1,0 +1,33 @@
+---
+import { NotFound } from '@/components/NotFound'
+import { Image } from '@/components/image/Image'
+import { getPostBySlug } from '@/server-side/api'
+import { formattedDate } from '@/utils'
+import Layout from '../../layouts/Layout.astro'
+
+const slug = Astro.url.pathname.split('/').pop()
+const post = await getPostBySlug(slug ?? '')
+---
+
+<Layout title='Blog' metadata={{}}>
+  <div class='px-[20px] lg:p-0 wrap post-wrap mb--60 container mt-30 post-detail'>
+    {
+      !post ? (
+        <NotFound />
+      ) : (
+        <>
+          <div class='entry-header'>
+            <h3 class='entry-title'>{post.title}</h3>
+            <Image src={post?.images} client:only width='300' ariaLabel='' />
+            <div class='post-meta'>
+              <span class='byline'>{post.description}</span>
+              <span>|</span>
+              <span class='post-date'>{formattedDate(post.createdAt)}</span>
+            </div>
+          </div>
+          <Fragment set:html={post.body} />
+        </>
+      )
+    }
+  </div>
+</Layout>

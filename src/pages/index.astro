@@ -1,0 +1,21 @@
+---
+import Banner from '@/fragments/home/Banner.tsx'
+import Coins from '@/fragments/home/Coins.astro'
+import Share from '@/fragments/home/Share.astro'
+import Support from '@/fragments/home/Support.astro'
+import { getTokenBalance } from '@/server-side/api'
+import type { Props } from 'astro'
+import type { Props as SEOProps } from 'astro-seo'
+import Layout from '../layouts/Layout.astro'
+import { generateSEO } from '../utils'
+
+const metadata = generateSEO({}) as SEOProps
+const balance = (await getTokenBalance()) as BalancerWallet
+---
+
+<Layout title='Home' metadata={metadata}>
+  <Banner balance={balance} client:only='preact' />
+  <Coins balance={balance} />
+  <Share balance={balance} />
+  <Support />
+</Layout>

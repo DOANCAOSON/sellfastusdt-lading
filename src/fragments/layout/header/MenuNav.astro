@@ -1,0 +1,20 @@
+---
+interface Props {
+  menuItems: { href: string; text: string }[];
+}
+
+const { menuItems } = Astro.props;
+---
+
+<div class="hidden flex-1 lg:flex items-center justify-end">
+  {
+    menuItems.map((item) => (
+      <a
+        href={item.href}
+        class="px-[16px] py-[4px] mr-[4px] font-bold text-black rounded-md border-transparent border-[1px] hover:text-bgcontainer hover:border-boderhex transition duration-300 ease-in-out"
+      >
+        {item.text}
+      </a>
+    ))
+  }
+</div>

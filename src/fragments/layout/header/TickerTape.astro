@@ -1,0 +1,98 @@
+---
+import { getPromotion } from '@/server-side/api'
+
+const token = Astro.cookies.get('token')?.value
+
+const promotionText = await getPromotion()
+---
+
+{
+  !!token && !!promotionText && (
+    <section class='ticker-tape'>
+      <div class='ticker-tape-title md:px-5 px-0'>🔥Hot News:</div>
+      <div class='ticker-tape-scroll'>
+        <div class='ticker-tape-story w-full'>
+          <marquee
+            class='news-scroll'
+            behavior='scroll'
+            direction='left'
+            onmouseover='this.stop();'
+            onmouseout='this.start();'>
+            <a href='/crypto/deposit' class='ticker-tape-link'>
+              <span id='promotionText'>{promotionText}</span>
+            </a>
+          </marquee>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  /* CSS */
+
+  .ticker-tape {
+    background: linear-gradient(to right, #fb8b1e, #00c75a);
+    width: 100%;
+    height: 2.5rem;
+    margin: 0 auto 0;
+  }
+
+  .ticker-tape-title {
+    float: left;
+    white-space: nowrap;
+    line-height: 2.5rem;
+    font-family: 'NHaasGroteskDSPro-75Bd', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 1.125rem;
+    color: #fff;
+    font-weight: bolder;
+  }
+
+  .ticker-tape .ticker-tape-scroll {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-tape .ticker-tape-collection:hover {
+    animation-play-state: paused;
+  }
+
+  .ticker-tape .ticker-tape-story {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 2.5rem;
+  }
+
+  .ticker-tape .ticker-tape-story:after {
+    overflow: hidden;
+    text-indent: -9999rem;
+    font-size: 0;
+    line-height: 0;
+    content: 'line after';
+    display: inline-block;
+    height: 1.875rem;
+    margin-bottom: 0.1875rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.35);
+    vertical-align: middle;
+  }
+  a {
+    text-decoration: none;
+    outline: 0;
+  }
+
+  .ticker-tape .ticker-tape-link {
+    display: inline-block;
+    padding: 0 1.25rem;
+    color: #fff;
+  }
+
+  .ticker-tape .ticker-tape-link:hover {
+    color: #fff;
+  }
+
+  .ticker-tape-story span {
+    padding-right: 0.3125rem;
+    font-family: 'NHaasGroteskDSPro-75Bd', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 1.125rem;
+  }
+</style>

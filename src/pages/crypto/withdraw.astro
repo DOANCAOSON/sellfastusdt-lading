@@ -1,0 +1,46 @@
+---
+import History from '@/components/deposit/History'
+import RightContract from '@/components/deposit/RightContact'
+import { getTokenBalance } from '@/server-side/api'
+import type { Props } from 'astro'
+import Layout from '../../layouts/Layout.astro'
+import { generateSEO } from '../../utils'
+
+const seo = generateSEO({})
+const balance = await getTokenBalance()
+const logged = !!Astro.cookies.get('token')
+---
+
+<Layout title='Deposit Bank - Home' metadata={seo as Props}>
+  <div class='text-gray-800 flex-grow flex' id='div-1'>
+    <div class='pt-6 w-full my-0 mx-auto px-6 lg:max-w-[58.50rem] lg:pl-0 lg:pr-0' id='div-2'>
+      {
+        logged ? (
+          <div class='pt-6 w-full my-0 mx-auto md:px-6 lg:max-w-[58.50rem] lg:pl-0 lg:pr-0' id='div-2'>
+            <RightContract balance={balance} client:only='preact' />
+            <History balance={balance} client:load type='DRAW' />
+          </div>
+        ) : (
+          <div
+            style='grid-template-areas: "top top" "a b" "c c";'
+            class='grid-cols-[1fr_336px] grid-rows-[auto] grid m-0'
+            id='div-3'>
+            <div style='grid-column: top; grid-row: top;' class='mt-0 mx-0 mb-10'>
+              <div class='rounded-xl m-0 p-6'>
+                <div class='text-xl font-medium m-0'>You are not logged in</div>
+                <div class='text-slate-500 text-sm mt-2 mx-0 mb-0'>
+                  All new and existing users must complete Login to access all products and services by sellfastusdt
+                </div>
+                <a
+                  href='/login'
+                  class='text-zinc-950 bg-yellow-300 items-center cursor-pointer text-sm font-medium justify-center px-4 text-center text-ellipsis break-all inline-flex w-32 h-9 min-w-[7.50rem] min-h-[2.25rem] mt-6 mx-0 mb-0 overflow-hidden rounded-lg'>
+                  Log in
+                </a>
+              </div>
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</Layout>

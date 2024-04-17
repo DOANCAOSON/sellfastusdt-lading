@@ -1,0 +1,59 @@
+---
+import { Animation } from '@/components/Animation'
+import BuyForm from '@/fragments/buy-screen/BuyForm'
+import CoinSample from '@/fragments/buy-screen/CoinSample'
+import Note from '@/fragments/buy-screen/Note.astro'
+import Support from '@/fragments/home/Support.astro'
+import TradeBinance from '@/fragments/home/chart/TradeBinance'
+import Layout from '@/layouts/Layout.astro'
+import { getTokenBalance } from '@/server-side/api'
+import { generateSEO } from '@/utils'
+import type { Props } from 'astro'
+
+const metadata = generateSEO({})
+const balance = await getTokenBalance()
+
+const contentText = {
+  buyUSDTTitle: 'Buy USDT',
+  buyPriceLabel: 'Buy price:',
+  autoTransactionNote:
+    'Automated transactions within 5 to 10 seconds via our platform, operational 24/7/365 (including nights and weekends).'
+}
+---
+
+<Layout title='BUY CRYPTO' metadata={metadata as Props}>
+  <div class='w-[100%] flex justify-center items-center'>
+    <div class='w-[100%] lg:w-[1300px]'>
+      <div class='shadow border-Black'>
+        <div
+          class='px-[20px] py-[4px] font-medium text-[12px] sm:text-[13px] lg:text-[14px] bg-bgcontainer text-text border-x-[0px] shadow border-Black'
+        >
+          {contentText.autoTransactionNote}
+        </div>
+        <div class='w-[100%]'>
+          <div class='w-[100%]'>
+            <div class='w-[100%]'>
+              <div class='w-[100%] flex justify-center'>
+                <div class='w-[100%] lg:px-[20px]'>
+                  <TradeBinance client:load />
+                  <Animation
+                    duration={0.3}
+                    animationName='fadeIn'
+                    className='text-neutral-800 flex-wrap text-sm flex justify-center'
+                    client:visible
+                  >
+                    <BuyForm client:only='preact' balance={balance} />
+                    <CoinSample className='w-full md:w-[40%]' />
+                  </Animation>
+                  <div class='w-[100%] h-[3px] bg-bgcontainer mt-[60px] rounded-3xl'></div>
+                  <Note />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <Support />
+</Layout>

@@ -1,0 +1,32 @@
+---
+const contentText = {
+  tradeGuideTitle: 'Trading Instructions',
+  tradeGuideSteps: [
+    'Check the USDT asset balance in your wallet on the system.',
+    'Select the token you want to purchase with USDT.',
+    'Enter the quantity of coins you want to buy.',
+    'Click the buy button to complete the transaction.'
+  ],
+  attentionTitle: 'Attention',
+  attentionPoints: [
+    'Please check your balance after the transaction has been marked as paid.',
+    'If there are any issues, please contact us immediately through the chat channel.',
+    'The system will send a confirmation email for your transaction, so please check your email regularly.'
+  ]
+}
+---
+
+<div class='mt-[20px] px-[20px] py-[40px]'>
+  <div class='text-[14px] font-bold mb-[12px]'>
+    {contentText.tradeGuideTitle}
+  </div>
+  <ul class='px-[20px] text-[12px] mb-[20px]'>
+    {contentText.tradeGuideSteps.map((step) => <li class='list-disc mb-[4px] font-normal'>{step}</li>)}
+  </ul>
+  <div class='text-[14px] font-bold mb-[12px]'>
+    {contentText.attentionTitle}
+  </div>
+  <ul class='px-[20px] text-[12px] mb-[20px]'>
+    {contentText.attentionPoints.map((point) => <li class='list-disc mb-[4px] font-normal'>{point}</li>)}
+  </ul>
+</div>

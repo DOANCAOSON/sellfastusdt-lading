@@ -1,0 +1,25 @@
+---
+import Support from '@/fragments/home/Support.astro'
+import Detail from '@/fragments/transaction/Detail'
+import Layout from '@/layouts/Layout.astro'
+import { getTransactionByID } from '@/server-side/api'
+import { generateSEO } from '@/utils'
+import type { Props } from 'astro'
+import QueryString from 'qs'
+
+const metadata = generateSEO({})
+const { transactionID } = QueryString.parse(Astro.url.search, {
+  strictNullHandling: true,
+  ignoreQueryPrefix: true,
+  arrayLimit: 1
+})
+if (!transactionID) return Astro.redirect('/404')
+const data = await getTransactionByID(transactionID as string)
+---
+
+<Layout title='DETAIL ORDER' metadata={metadata as Props}>
+  <div class='container'>
+    <Detail client:load data={data} type='transaction' />
+    <Support />
+  </div>
+</Layout>

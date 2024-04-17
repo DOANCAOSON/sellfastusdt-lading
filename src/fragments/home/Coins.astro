@@ -1,0 +1,18 @@
+---
+import Chart from './chart'
+import TradeBinance from './chart/TradeBinance'
+import HeaderCoins from './table/HeaderCoins.astro'
+import Table from './table/Table'
+
+const { balance } = Astro.props
+---
+
+<div class='container'>
+  <HeaderCoins />
+
+  <div class='align-items-center mt-5'>
+    <TradeBinance client:load />
+    <Chart client:load coins={balance?.coins} />
+  </div>
+  <Table balance={balance} client:load />
+</div>

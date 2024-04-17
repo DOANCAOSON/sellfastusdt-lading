@@ -1,0 +1,15 @@
+---
+import Empty from '@/components/Empty'
+import SellScreen from '@/fragments/search'
+import { getTransactions } from '@/server-side/api'
+import type { Props } from 'astro'
+import Layout from '../layouts/Layout.astro'
+import { generateSEO } from '../utils'
+
+const seo = generateSEO({})
+const transactions = await getTransactions(Astro.url.search)
+---
+
+<Layout title='Search' metadata={seo as Props}>
+  {!!transactions ? <SellScreen transactions={transactions} client:visible /> : <Empty />}
+</Layout>

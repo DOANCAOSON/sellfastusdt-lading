@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  fe:
+    build:
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - BACKEND_ENDPOINT=https://be.sellfastusdt.com
+      - PUBLIC_SOCKET_BACKEND_ENDPOINT=https://be.sellfastusdt.com/socket
+      - SEO_DESCRIPTION=Chúng tôi cung cấp dịch vụ chuyển đổi USDT với tỉ giá cạnh tranh. Giao dịch nhanh chóng, bảo mật thông tin.Đăng ký tài khoản ngay để trải nghiệm dịch vụ tốt nhất. Chúng tôi luôn sẵn sàng hỗ trợ khách hàng 24/7/365.
+      - SEO_TITLE=sellfastusdt
+      - PUBLIC_CLIENT_ID=2ca71c3a-3507-4a06-94e4-5e9b79ff5c80
+      - PUBLIC_API_KEY=7d28a8b3-8166-4988-a1a4-296cbf24b88c
+    command: node server.js
+    ports:
+      - '4322:4322'
+    expose:
+      - 4322
+
+volumes:
+  db:
+    driver: local

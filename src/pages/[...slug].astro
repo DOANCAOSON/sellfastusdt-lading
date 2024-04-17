@@ -1,0 +1,21 @@
+---
+import type { Props } from 'astro-seo'
+import { NotFound } from '../components/NotFound'
+import Layout from '../layouts/Layout.astro'
+import { getStaticPage } from '../server-side/api'
+import { generateSEO, upperCaseString } from '../utils'
+const {
+  params: { slug = 'Not Found' }
+} = Astro
+const data = (await getStaticPage(slug)) as StaticPage
+const title = `${upperCaseString(slug)}`
+const seo = generateSEO({
+  title
+})
+---
+
+<Layout title={title} metadata={seo as Props}>
+  <div class='main-static px-[20px] lg:px-0'>
+    {data ? <div set:html={data.html} /> : <NotFound />}
+  </div>
+</Layout>

@@ -1,0 +1,36 @@
+---
+const { balance } = Astro.props
+
+const shareItems = [
+  {
+    backgroundColor: '#fcd535',
+    text: 'Web mua bán token uy tín'
+  }
+]
+---
+
+<div
+  class='w-[100%] flex justify-center items-center px-[20px] mt-[30px] md:mt-[100px] mb-[40px] sm:mb-[60px] lg:mb-[80px]'
+>
+  <div class='w-[100%] lg:w-[1300px] lg:h-[120px] px-[20px] pb-[20px] lg:p-0 bg-[#69ccb2] rounded-lg'>
+    <div class=''>
+      <p class='text-center pt-[20px]'>
+        <span class='text-text text-[12px] sm:text-[13px] lg:text-[14px]'>
+          Receive 0.1% {balance?.tokenName} immediately for each friend you refer to buy and sell on {
+            balance?.tokenName
+          }. Share the following link:
+        </span>
+      </p>
+    </div>
+    <div class='flex justify-center mt-[8px]'>
+      {
+        shareItems.map((item, index) => (
+          <div
+            class={`bg-${item.backgroundColor} px-[20px] lg:px-[40px] py-[4px] rounded-lg text-text text-[12px] sm:text-[13px] lg:text-[14px] font-light cursor-pointer`}>
+            {item.text}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>

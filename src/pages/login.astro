@@ -1,0 +1,22 @@
+---
+import { generateSEO } from '@/utils'
+import type { Props as SEOProps } from 'astro-seo'
+import LoginScreen from '../fragments/login'
+import Layout from '../layouts/Layout.astro'
+
+const metadata = generateSEO({}) as SEOProps
+Astro.cookies.delete('token')
+Astro.cookies.delete('userId')
+Astro.cookies.delete('userInfo')
+---
+
+<Layout title='Login' metadata={metadata}>
+  <div class='banner-login-screen'></div>
+  <div id='form-layout' class='login'>
+    <LoginScreen client:visible />
+  </div>
+  <script>
+    import { auth } from '@/store/auth-store'
+    auth.set({ auth: undefined })
+  </script>
+</Layout>
